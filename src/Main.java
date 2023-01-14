@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
     }
@@ -35,5 +37,20 @@ public class Main {
         }
 
         return x == newNum || x == newNum / 10;
+    }
+
+    public static String longestCommonPrefix(String[] strs) {
+        StringBuilder commonPrefix = new StringBuilder();
+        for (int i = 0; i < strs[0].length(); i++) {
+
+            for (int j = 1; j < strs.length; j++) {
+                if (!(strs[j].startsWith(commonPrefix.toString() + strs[0].charAt(i)))) {
+                    return commonPrefix.toString();
+                }
+            }
+            commonPrefix.append(strs[0].charAt(i));
+        }
+
+        return commonPrefix.toString();
     }
 }
