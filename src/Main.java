@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,5 +52,83 @@ public class Main {
         }
 
         return commonPrefix.toString();
+    }
+
+    public static boolean isValidParentheses(String s) {
+        Map<Character, Character> openedToClosed = Map.of('(', ')', '{', '}', '[', ']');
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (openedToClosed.containsKey((s.charAt(i)))) {
+                stack.push(s.charAt(i));
+            } else {
+                if (stack.isEmpty())
+                    return false;
+                else if (openedToClosed.get(stack.peek()).equals(s.charAt(i))) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    public static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if (list1 == null && list2 == null)
+            return list1;
+        else if (list1 == null)
+            return list2;
+        else if (list2 == null)
+            return list1;
+
+
+        ListNode finishList = new ListNode();
+        ListNode newNode = new ListNode();
+
+        if (list1.val > list2.val) {
+            newNode.val = list2.val;
+
+            list2 = list2.next;
+        } else {
+            newNode.val = list1.val;
+
+            list1 = list1.next;
+        }
+
+        finishList = newNode;
+
+        while (list1 != null && list2 != null) {
+            ListNode listNode = new ListNode();
+
+            if (list1.val > list2.val) {
+                listNode.val = list2.val;
+
+                list2 = list2.next;
+            } else {
+                listNode.val = list1.val;
+
+                list1 = list1.next;
+            }
+
+            newNode.next = listNode;
+            newNode = listNode;
+        }
+
+        if (list1 == null) {
+            ListNode listNode = new ListNode();
+
+            listNode = list2;
+
+            newNode.next = listNode;
+        } else if (list2 == null) {
+            ListNode listNode = new ListNode();
+
+            listNode = list1;
+
+            newNode.next = listNode;
+        }
+
+        return finishList;
     }
 }
