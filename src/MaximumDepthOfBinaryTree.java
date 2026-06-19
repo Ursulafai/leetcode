@@ -1,5 +1,4 @@
 public class MaximumDepthOfBinaryTree {
-    public int maxDept = 0;
     static void main() {
 
         TreeNode node1 = new TreeNode(9);
