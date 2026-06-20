@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class SubtreeOfAnotherTree {
     static void main() {
         TreeNode node0 = new TreeNode(0);
@@ -18,22 +21,29 @@ public class SubtreeOfAnotherTree {
         if (subRoot == null) return true;
         if (root == null) return false;
 
-        if (root.val == subRoot.val && isSameTree(root, subRoot)) return true;
+        Map<TreeNode, Long> hashMap = new HashMap<>();
+        computeHash(root, hashMap);
 
-        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        long subHash = computeHash(subRoot, new HashMap<>());
+
+        return hashMap.containsValue(subHash);
     }
 
-    public static boolean isSameTree(TreeNode p, TreeNode q) {
-        if (p == null) {
-            return q == null;
-        }
+    private static long computeHash(TreeNode node, Map<TreeNode, Long> hashMap) {
+        if (node == null) return 0;
 
-        if (q == null) {
-            return false;
-        }
+        long leftHash = computeHash(node.left, hashMap);
+        long rightHash = computeHash(node.right, hashMap);
 
-        if (p.val != q.val) return false;
+        long leftExists = (node.left != null) ? 1 : 0;
+        long rightExists = (node.right != null) ? 1 : 0;
 
-        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        long hash = 31L * node.val + 17L * leftHash + 13L * rightHash
+                + 7L * leftExists + 5L * rightExists;;
+
+        hashMap.put(node, hash);
+
+        return hash;
     }
+
 }
