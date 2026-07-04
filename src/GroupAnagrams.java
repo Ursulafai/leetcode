@@ -5,23 +5,21 @@ public class GroupAnagrams {
         Solution solution = new Solution();
         System.out.println(solution.groupAnagrams(new String[]{"a"}));
     }
+
     static class Solution {
-        private final Map<String, List<String>> storage = new HashMap<>();
         public List<List<String>> groupAnagrams(String[] strs) {
+
+            Map<String, List<String>> storage = new HashMap<>();
 
             for (String str : strs) {
                 char[] charArray = str.toCharArray();
                 Arrays.sort(charArray);
+                String key = new String(charArray);
 
-                String string = Arrays.toString(charArray);
-                if (storage.containsKey(string)) {
-                    storage.get(string).add(str);
-                } else {
-                    storage.put(string, new LinkedList<>(List.of(str)));
-                }
+                storage.computeIfAbsent(key, k -> new ArrayList<>()).add(str);
             }
 
-            return (new LinkedList<>(storage.values()));
+            return new ArrayList<>(storage.values());
         }
     }
 }
