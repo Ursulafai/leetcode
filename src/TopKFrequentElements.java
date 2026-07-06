@@ -39,4 +39,34 @@ public class TopKFrequentElements {
         }
         return resultArray;
     }
+
+    public int[] topKFrequentBuckets(int[] nums, int k) {
+        Map<Integer, Integer> freqStorage = new HashMap<>();
+        ArrayList<Integer>[] buckets = new ArrayList[nums.length + 1];
+        int[] res = new int[k];
+
+        for (int num : nums) {
+            freqStorage.merge(num, 1, Integer::sum);
+        }
+
+        for (int key : freqStorage.keySet()) {
+            int value = freqStorage.get(key);
+            if (buckets[value] == null) {
+                buckets[value] = new ArrayList<>();
+            }
+
+            buckets[value].add(key);
+        }
+        int idx = 0;
+        for (int i = nums.length; i >= 0 && idx < k; i--) {
+            if (buckets[i] != null) {
+                for (int num : buckets[i]) {
+                    res[idx++] = num;
+                    if (idx > k) return res;
+                }
+            }
+        }
+
+        return res;
+    }
 }
