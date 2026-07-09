@@ -4,6 +4,7 @@ public class LongestSubstringWithoutRepeatingChars {
     public static void main(String[] args) {
         System.out.println(lengthOfLongestSubstring("abcabcbb"));
     }
+
     public static int lengthOfLongestSubstring(String s) {
         int left = 0;
         int maxSize = 0;
@@ -24,4 +25,25 @@ public class LongestSubstringWithoutRepeatingChars {
         return maxSize;
     }
 
+    public int lengthOfLongestSubstringWithConstantMemory(String s) {
+        boolean[] added = new boolean[128];
+
+        int l = 0;
+        int max = 0;
+
+        for (int r = 0; r < s.length(); r++) {
+            char c = s.charAt(r);
+
+            while (added[c]) {
+                added[s.charAt(l)] = false;
+                l++;
+            }
+
+            added[c] = true;
+            max = Math.max(max, r - l + 1);
+        }
+
+        return max;
+
+    }
 }
